@@ -65,6 +65,9 @@ async function generateWithHuggingFace(
     if (err.name === 'AbortError') {
       throw new Error('Request timed out. Free-tier models can be slow. Please try again.')
     }
+    if (err.message?.includes('DNS') || err.message?.includes('internal error') || err.message?.includes('fetch failed')) {
+      throw new Error('Model API temporarily unavailable. Please try again in a moment.')
+    }
     throw err
   }
 }

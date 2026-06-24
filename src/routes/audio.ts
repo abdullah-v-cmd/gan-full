@@ -59,6 +59,9 @@ async function generateTTS(
     if (err.name === 'AbortError') {
       throw new Error('Request timed out. TTS model may need warm-up. Please try again in 20s.')
     }
+    if (err.message?.includes('DNS') || err.message?.includes('internal error') || err.message?.includes('fetch failed')) {
+      throw new Error('TTS API temporarily unavailable. Please try again in a moment.')
+    }
     throw err
   }
 }
